@@ -123,4 +123,12 @@ public class MusicManager : MonoBehaviour
         musicPlayEvent.release();
         timelineHandle.Free();
     }
+
+    public void TryPlay()
+    {
+        musicPlayEvent = RuntimeManager.CreateInstance(music);
+        musicPlayEvent.start();
+        musicPlayEvent.getVolume(out float currentVolume);
+        Debug.Log(currentVolume);
+    }
 }
