@@ -16,7 +16,7 @@ public class MusicManager : MonoBehaviour
 
     //Music Manager Logic
     public static MusicManager me;
-    [SerializeField] [EventRef] private string music; //The menu to choose an event
+    [SerializeField] private EventReference music; //The menu to choose an event
 
     //TimelineInfo Class
     [StructLayout(LayoutKind.Sequential)] public class TimelineInfo
