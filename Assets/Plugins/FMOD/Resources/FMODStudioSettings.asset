@@ -426,8 +426,8 @@ MonoBehaviour:
   switchSettingsMigration: 1
   HasSourceProject: 1
   HasPlatforms: 1
-  sourceProjectPath: ../Unity3D_CyberSouls-FMOD/CyberSouls FMOD.fspro
-  sourceBankPath: ../Unity3D_CyberSouls-FMOD/Build
+  sourceProjectPath: CyberSouls FMOD.fspro
+  sourceBankPath: Build
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
