@@ -1,40 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SphereBeat : MonoBehaviour
 {
-    Animator thisAnimator;
-    Material initMaterial;
-    Material finalMaterial;
-    [SerializeField] private Color emissionColor;
-
-
-    public float gbColor;
-    private void OnEnable()
-    {
-        MusicManager.OnBeatDetect += UpdateColor;
-    }
+    private Animator thisAnimator;
 
     private void Start()
     {
+        MusicManager.OnBeatDetect.AddListener(BeatTrigger);
+        MusicManager.OnMarkerDetect.AddListener(MarkerTrigger);
         thisAnimator = GetComponent<Animator>();
-        initMaterial = GetComponent<Renderer>().materials[0];
-        finalMaterial = initMaterial;
-        GetComponent<Renderer>().materials[0] = finalMaterial;
     }
 
-    private void FixedUpdate()
+    void BeatTrigger()
     {
-        emissionColor.r = 1;
-        emissionColor.g = gbColor;
-        emissionColor.b = gbColor;
-        emissionColor.a = 0;
-        GetComponent<Renderer>().materials[0].SetColor("_color", emissionColor);
+        Debug.Log("A");
+        thisAnimator.SetTrigger("Beat Trigger");
     }
 
-    void UpdateColor()
+    void MarkerTrigger()
     {
-        thisAnimator.SetBool("Should Beat", true);
+        Debug.Log("B");
+        thisAnimator.SetTrigger("Marker Trigger");
     }
 }

@@ -1,14 +1,14 @@
 using UnityEngine;
 using System;
-using System.Collections;
 using System.Runtime.InteropServices;
 using FMODUnity;
+using UnityEngine.Events;
 
 public class MusicManager : MonoBehaviour
 {
     //Event System
-    public delegate void OnBeat();
-    public static event OnBeat OnBeatDetect;
+    public static UnityEvent OnBeatDetect;
+    public static UnityEvent OnMarkerDetect;
 
     //Small Logic
     private int lastBeat;
@@ -40,7 +40,9 @@ public class MusicManager : MonoBehaviour
     private void Awake()
     {
         //self-referencing
-        me = this;    
+        me = this;
+        OnBeatDetect = new UnityEvent();
+        OnMarkerDetect = new UnityEvent();
 
         //music event instance to handle
         musicPlayEvent = RuntimeManager.CreateInstance(music);
@@ -92,6 +94,7 @@ public class MusicManager : MonoBehaviour
                     timelineInfo.currentBeat = parameter.beat;
                     timelineInfo.currentBar = parameter.bar;
                     timelineInfo.currentTempo = parameter.tempo;
+                    OnBeatDetect?.Invoke();
                 }
                 break;
 
@@ -99,21 +102,12 @@ public class MusicManager : MonoBehaviour
                 {
                     var parameter = (FMOD.Studio.TIMELINE_MARKER_PROPERTIES)Marshal.PtrToStructure(parameterPtr, typeof(FMOD.Studio.TIMELINE_MARKER_PROPERTIES));
                     timelineInfo.lastMarker = parameter.name;
+                    OnMarkerDetect?.Invoke();
                 }
                 break;
             }
         }
         return FMOD.RESULT.OK;
-    }
-
-    private void FixedUpdate()
-    {
-        lastBeat = timelineInfo.currentBeat;
-        if (lastBeat != thisBeat)
-        {
-            thisBeat = lastBeat;
-            OnBeatDetect();
-        }
     }
 
     private void OnDestroy()
